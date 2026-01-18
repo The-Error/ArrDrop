@@ -4,16 +4,32 @@ import argparse
 from datetime import datetime
 from pathlib import Path
 
+# ArrDrop Sync Backend
+# Version: 2026.01
+# Codename: Baumkuchen
+# Purpose: Pull IMDb IDs from a public list and add them to Radarr.
+# Requires: Radarr v3 API access and a reachable movies list URL.
+# Author: Zoran Karavla
+# Tooling: Codex (GPT-5)
+# Project: https://github.com/The-Error/ArrDrop
+
 # ================= CONFIG =================
+# MOVIES_URL: Public URL to the plain-text list of IMDb IDs (one per line).
 MOVIES_URL = "https://example.com/movies.txt"
+# RADARR_URL: Base URL of your Radarr instance.
 RADARR_URL = "http://192.168.0.123:7878"
+# RADARR_API_KEY: API key from Radarr Settings > General.
 RADARR_API_KEY = "API-KEY-HERE"
 
+# QUALITY_PROFILE_ID: Numeric ID of the Radarr quality profile to use.
 QUALITY_PROFILE_ID = 5
+# ROOT_FOLDER: Root folder in Radarr where movies should be stored.
 ROOT_FOLDER = "/movies"
 
+# STATE_FILE: Local file that tracks which IMDb IDs were already processed.
 STATE_FILE = Path("processed.txt")
-LOG_FILE = Path("radarr_sync.log")
+# LOG_FILE: Local log file written by this script.
+LOG_FILE = Path("arrdrop.log")
 # =========================================
 
 
