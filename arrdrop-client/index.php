@@ -37,15 +37,20 @@ if (isset($_POST['delete_all'])) {
 
 // Add new IDs
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['movies'])) {
-    $input = explode("\n", $_POST['movies']);
-    foreach ($input as $line) {
-        $line = trim($line);
-        if (preg_match('/^tt\d{7,8}$/', $line) && !in_array($line, $movies)) {
-            $movies[] = $line;
+    $raw = $_POST['movies'];
+    $matches = [];
+    preg_match_all('/tt\d{7,8}(?!\d)/i', $raw, $matches);
+
+    if (!empty($matches[0])) {
+        foreach ($matches[0] as $id) {
+            $id = strtolower($id);
+            if (!in_array($id, $movies)) {
+                $movies[] = $id;
+            }
         }
+        file_put_contents($filename, implode("\n", $movies));
+        $message = "Saved";
     }
-    file_put_contents($filename, implode("\n", $movies));
-    $message = "Saved";
 }
 ?>
 <!DOCTYPE html>
@@ -85,6 +90,7 @@ button {
     font-size: 16px;
     cursor: pointer;
     border-radius: 20px;
+    transition: transform 0.15s ease;
 }
 
 .add-btn {
@@ -98,6 +104,10 @@ button {
     margin-bottom: 10px;
 }
 
+button:hover {
+    transform: scale(1.1);
+}
+
 ul {
     list-style: none;
     padding-left: 0;
@@ -108,13 +118,49 @@ li {
 }
 
 a.delete {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    border-radius: 50%;
+    background: transparent;
     color: #F63049;
+    font-weight: bold;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
     text-decoration: none;
-    margin-left: 10px;
+    line-height: 1;
 }
 
 a.delete:hover {
+    background: #F63049;
+    color: white;
+}
+
+a.imdb {
+    color: #24B23B;
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+}
+
+a.imdb:visited {
+    color: #24B23B;
+}
+
+a.imdb:hover {
     text-decoration: underline;
+}
+
+a.delete:hover + a.imdb {
+    background: #F63049;
+    color: white;
+    border-radius: 12px;
+    padding: 2px 6px;
+    text-decoration: none;
+    transform: scale(1.1);
 }
 
 .message {
@@ -155,8 +201,9 @@ hr {
 <ul>
 <?php foreach ($movies as $id): ?>
     <li>
-        <?php echo htmlspecialchars($id); ?>
-        <a class="delete" href="?delete=<?php echo urlencode($id); ?>" onclick="return confirm('Delete <?php echo $id; ?>?');">Delete</a>
+        <a class="delete" href="?delete=<?php echo urlencode($id); ?>" onclick="return confirm('Delete <?php echo $id; ?>?');">&times;</a>
+        <a class="imdb" href="https://www.imdb.com/title/<?php echo rawurlencode($id); ?>/"
+           target="_blank" rel="nofollow noopener noreferrer"><?php echo htmlspecialchars($id); ?></a>
     </li>
 <?php endforeach; ?>
 </ul>
