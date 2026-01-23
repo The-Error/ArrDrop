@@ -12,6 +12,7 @@
 $filename = "movies.txt";
 // STATUS_MESSAGE: UI feedback after saving.
 $message = "";
+$textarea_value = "";
 
 // Load current list
 $movies = [];
@@ -42,14 +43,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['movies'])) {
     preg_match_all('/tt\d{7,8}(?!\d)/i', $raw, $matches);
 
     if (!empty($matches[0])) {
+        $new_ids = [];
         foreach ($matches[0] as $id) {
             $id = strtolower($id);
-            if (!in_array($id, $movies)) {
-                $movies[] = $id;
+            if (!in_array($id, $movies) && !in_array($id, $new_ids)) {
+                $new_ids[] = $id;
             }
         }
-        file_put_contents($filename, implode("\n", $movies));
-        $message = "Saved";
+        if ($new_ids) {
+            $movies = array_merge($new_ids, $movies);
+            file_put_contents($filename, implode("\n", $movies));
+            $message = "Added " . count($new_ids) . " new ID(s)";
+        } else {
+            $message = "No new IDs found";
+            $textarea_value = $raw;
+        }
+    } else {
+        $message = "No valid IMDb IDs found";
+        $textarea_value = $raw;
     }
 }
 ?>
@@ -57,13 +68,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['movies'])) {
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Add Movie</title>
 <style>
 body {
     font-family: sans-serif;
-    max-width: 700px;
-    margin: 50px auto;
+    max-width: 44rem;
+    margin: 3.125rem auto;
     background: #F9F8F6;
+    padding: 0 1rem;
 }
 
 h1 {
@@ -76,20 +89,20 @@ p {
 
 textarea {
     width: 100%;
-    height: 120px;
+    min-height: 7.5rem;
     font-family: monospace;
-    border: none;
+    border: 0.0625rem solid #24B23B;
     background: white;
-    padding: 10px;
+    padding: 0.625rem;
     box-sizing: border-box;
 }
 
 button {
     border: none;
-    padding: 10px 16px;
-    font-size: 16px;
+    padding: 0.625rem 1rem;
+    font-size: 1rem;
     cursor: pointer;
-    border-radius: 20px;
+    border-radius: 1.25rem;
     transition: transform 0.15s ease;
 }
 
@@ -101,7 +114,7 @@ button {
 .delete-all {
     background: #F63049;
     color: white;
-    margin-bottom: 10px;
+    margin-bottom: 0.625rem;
 }
 
 button:hover {
@@ -114,21 +127,21 @@ ul {
 }
 
 li {
-    margin: 6px 0;
+    margin: 0.375rem 0;
 }
 
 a.delete {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: 0.625rem;
     border-radius: 50%;
     background: transparent;
     color: #F63049;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 1rem;
     font-family: Arial, sans-serif;
     text-decoration: none;
     line-height: 1;
@@ -154,25 +167,61 @@ a.imdb:hover {
     text-decoration: underline;
 }
 
+a.imdb:focus-visible,
+a.imdb:active {
+    background: #F63049;
+    color: white;
+    border-radius: 0.75rem;
+    padding: 0.125rem 0.375rem;
+    text-decoration: none;
+    transform: scale(1.05);
+}
+
 a.delete:hover + a.imdb {
     background: #F63049;
     color: white;
-    border-radius: 12px;
-    padding: 2px 6px;
+    border-radius: 0.75rem;
+    padding: 0.125rem 0.375rem;
     text-decoration: none;
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 
 .message {
-    margin: 10px 0;
+    margin: 0.625rem 0;
     color: #3B3030;
 }
 
 hr {
-    border: none;
-    height: 1px;
-    background: #D9CFC7;
-    margin: 40px 0;
+    border: 0;
+    border-top: 0.0625rem solid #D9CFC7;
+    height: 0;
+    margin: 2.5rem 0;
+}
+
+@media (max-width: 40rem) {
+    body {
+        margin: 1.5rem auto;
+    }
+
+    h1 {
+        font-size: 1.375rem;
+    }
+
+    button {
+        width: 100%;
+    }
+
+    textarea {
+        min-height: 10rem;
+    }
+
+    li {
+        display: flex;
+        align-items: center;
+        gap: 0.375rem;
+        flex-wrap: wrap;
+        word-break: break-word;
+    }
 }
 </style>
 </head>
@@ -185,7 +234,7 @@ hr {
 <?php endif; ?>
 
 <form method="post">
-    <textarea name="movies" placeholder="Enter one IMDB ID per line (e.g. tt0133093)"></textarea><br><br>
+    <textarea name="movies" placeholder="Drop all links or IMDB IDs (e.g. tt0133093) here and press Add."><?php echo htmlspecialchars($textarea_value); ?></textarea><br><br>
     <button class="add-btn" type="submit"><strong>+</strong> Add</button>
 </form>
 
