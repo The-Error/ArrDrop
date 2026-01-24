@@ -220,9 +220,22 @@ li {
     text-decoration: underline;
 }
 
-.total-count {
-    margin-top: 0.5rem;
+.total-inline {
+    font-size: 0.9rem;
     color: #24B23B;
+    font-weight: normal;
+    display: inline-block;
+}
+
+.bounce {
+    animation: bounce 0.6s ease;
+}
+
+@keyframes bounce {
+    0% { transform: translateY(0); }
+    30% { transform: translateY(-0.25rem); }
+    60% { transform: translateY(0.1rem); }
+    100% { transform: translateY(0); }
 }
 
 a.delete {
@@ -231,7 +244,7 @@ a.delete {
     justify-content: center;
     width: 1.25rem;
     height: 1.25rem;
-    margin-right: 0.625rem;
+    margin-right: 0.0625rem;
     border-radius: 50%;
     background: transparent;
     color: #F63049;
@@ -251,6 +264,8 @@ a.imdb {
     color: #24B23B;
     text-decoration: none;
     display: inline-block;
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.75rem;
     transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease;
 }
 
@@ -275,10 +290,8 @@ a.imdb:active {
 a.delete:hover + a.imdb {
     background: #F63049;
     color: white;
-    border-radius: 0.75rem;
-    padding: 0.125rem 0.375rem;
     text-decoration: none;
-    transform: scale(1.05);
+    transform: none;
 }
 
 .message {
@@ -298,7 +311,7 @@ a.delete:hover + a.imdb {
     position: relative;
     width: 100%;
     background: transparent;
-    border-radius: 0;
+    border-radius: 0.5rem;
     overflow: hidden;
     border: 0;
     height: 1.25rem;
@@ -308,6 +321,7 @@ a.delete:hover + a.imdb {
     height: 100%;
     width: 0%;
     background: #24B23B;
+    border-radius: 0.5rem;
     transition: width 2.0s cubic-bezier(0, 0, 0.2, 1);
     position: relative;
 }
@@ -325,7 +339,7 @@ a.delete:hover + a.imdb {
     font-weight: normal;
     color: #F9F8F6;
     text-shadow: none;
-    padding: 0 0.75rem;
+    padding: 0 0.25rem 0 0.4rem;
     text-align: center;
     font-size: 0.9rem;
 }
@@ -399,17 +413,21 @@ hr {
 <hr>
 
 <?php if ($movies): ?>
-<h1>Queue</h1>
+<?php
+    $visible_limit = 9;
+    $total_movies = count($movies);
+    $visible_count = min($visible_limit, $total_movies);
+    $display_total = $total_movies;
+    if ($message_class === "message-success" && $added_count > 0) {
+        $display_total = max(0, $total_movies - $added_count);
+    }
+?>
+<h1>Queue <span class="total-inline" data-total="<?php echo $total_movies; ?>">(<?php echo $display_total; ?>)</span></h1>
 
 <form method="post" onsubmit="return confirm('Delete ALL movie IDs?');">
     <button class="delete-all" type="submit" name="delete_all">Delete all</button>
 </form>
 
-<?php
-    $visible_limit = 9;
-    $total_movies = count($movies);
-    $visible_count = min($visible_limit, $total_movies);
-?>
 <ul>
 <?php foreach ($movies as $i => $id): ?>
     <?php
@@ -434,7 +452,6 @@ hr {
     </li>
 <?php endforeach; ?>
 </ul>
-<p class="total-count">Total IDs: <?php echo $total_movies; ?></p>
 <?php if ($total_movies >= $visible_limit): ?>
     <a class="show-more" href="#" onclick="return showMoreMovies();">Show all</a>
 <?php endif; ?>
@@ -456,6 +473,27 @@ document.addEventListener("DOMContentLoaded", () => {
             requestAnimationFrame(() => {
                 fill.style.width = "100%";
             });
+        }
+
+        if (total > 0 && fill) {
+            const totalInline = document.querySelector(".total-inline");
+            if (totalInline) {
+                const baseTotal = parseInt(totalInline.dataset.total || "0", 10);
+                const styles = getComputedStyle(fill);
+                const durations = styles.transitionDuration.split(",").map(s => s.trim());
+                const delays = styles.transitionDelay.split(",").map(s => s.trim());
+                const toMs = (v) => v.endsWith("ms") ? parseFloat(v) : parseFloat(v) * 1000;
+                const maxDuration = Math.max(...durations.map(toMs));
+                const maxDelay = Math.max(...delays.map(toMs));
+                const wait = Math.max(0, maxDuration + maxDelay);
+
+                setTimeout(() => {
+                    totalInline.textContent = `(${baseTotal})`;
+                    totalInline.classList.remove("bounce");
+                    void totalInline.offsetWidth;
+                    totalInline.classList.add("bounce");
+                }, wait);
+            }
         }
         if (text && total > 0) {
             const tick = (now) => {
