@@ -4,7 +4,6 @@ ArrDrop is a tiny two-part tool for adding IMDb IDs to Radarr.
 
 Project: https://github.com/The-Error/ArrDrop
 Version: 2026.01
-Versioning: CalVer (e.g., 2026.01 or 2026.01.18)
 
 ## What it does
 - PHP client: lets you paste IMDb IDs into a web page.
