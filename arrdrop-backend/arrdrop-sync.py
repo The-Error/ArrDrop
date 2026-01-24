@@ -39,6 +39,36 @@ def log(message):
     print(line)
     LOG_FILE.open("a").write(line + "\n")
 
+def show_last_added_from_log():
+    if not LOG_FILE.exists():
+        print("No log file found.")
+        return
+
+    lines = LOG_FILE.read_text().splitlines()
+    start_marker = "===== Radarr sync started ====="
+    start_index = None
+
+    for i in range(len(lines) - 1, -1, -1):
+        if start_marker in lines[i]:
+            start_index = i
+            break
+
+    if start_index is None:
+        print("No sync run found in log.")
+        return
+
+    added = []
+    for line in lines[start_index:]:
+        if "Added movie:" in line:
+            added.append(line)
+
+    if not added:
+        print("No movies were added in the last sync.")
+        return
+
+    for line in added:
+        print(line)
+
 
 def fetch_movie_list():
     resp = requests.get(MOVIES_URL, timeout=10)
@@ -113,7 +143,12 @@ def add_movie(movie, dry_run):
 def main():
     parser = argparse.ArgumentParser(description="Sync movies.txt with Radarr")
     parser.add_argument("--dry-run", action="store_true", help="Do not add movies, only log actions")
+    parser.add_argument("--log", action="store_true", help="Show movies added in the last sync and exit")
     args = parser.parse_args()
+
+    if args.log:
+        show_last_added_from_log()
+        return
 
     log("===== Radarr sync started =====")
     if args.dry_run:

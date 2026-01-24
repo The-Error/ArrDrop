@@ -22,7 +22,7 @@ $codename = "Baumkuchen";
 function get_success_messages() {
     return [
         "Nice drop!",
-	"Arright!",
+        "Arright!",
         "Smooth haul, captain.",
         "Yo-ho-ho, that’s a fine catch.",
         "Clean drop. Respect.",
@@ -36,8 +36,8 @@ function get_success_messages() {
         "All set.",
         "Looking good.",
         "Well done.",
-	"I'll try not to spoil the ending.",
-	"Hey I know that one.",
+        "I'll try not to spoil the ending.",
+        "Hey I know that one.",
         "Good progress.",
         "Fresh loot on deck.",
         "The chest gets heavier.",
