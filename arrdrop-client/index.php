@@ -174,6 +174,8 @@ button {
     cursor: pointer;
     border-radius: 1.25rem;
     transition: transform 0.15s ease;
+    position: relative;
+    overflow: hidden;
 }
 
 .add-btn {
@@ -189,6 +191,29 @@ button {
 
 button:hover {
     transform: scale(1.1);
+}
+
+button::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -30%;
+    width: 30%;
+    height: 100%;
+    background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.35) 50%, rgba(255,255,255,0) 100%);
+    transform: skewX(-20deg);
+    opacity: 0;
+    transition: opacity 0.15s ease;
+}
+
+button:hover::after {
+    opacity: 1;
+    animation: sheen 0.6s ease;
+}
+
+@keyframes sheen {
+    from { left: -30%; }
+    to { left: 110%; }
 }
 
 ul {
@@ -225,6 +250,46 @@ li {
     color: #24B23B;
     font-weight: normal;
     display: inline-block;
+}
+
+.tip {
+    position: relative;
+}
+
+.tip::after {
+    content: attr(data-tip);
+    position: absolute;
+    bottom: 135%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #3B3030;
+    color: #F9F8F6;
+    font-size: 0.85rem;
+    line-height: 1.1;
+    font-weight: normal;
+    padding: 0.3rem 0.5rem;
+    border-radius: 0.4rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.tip::before {
+    content: "";
+    position: absolute;
+    bottom: 115%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 0.35rem 0.35rem 0;
+    border-style: solid;
+    border-color: #3B3030 transparent transparent;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.tip:hover::after,
+.tip:hover::before {
+    opacity: 1;
 }
 
 .bounce {
@@ -388,7 +453,7 @@ hr {
 </head>
 <body>
 
-<h1 title="<?php echo htmlspecialchars($version); ?>&#10;<?php echo htmlspecialchars($codename); ?>">ArrDrop</h1>
+<h1>ArrDrop</h1>
 
 <?php if ($message): ?>
     <?php if ($message_class === "message-success"): ?>
@@ -422,7 +487,7 @@ hr {
         $display_total = max(0, $total_movies - $added_count);
     }
 ?>
-<h1>Queue <span class="total-inline" data-total="<?php echo $total_movies; ?>">(<?php echo $display_total; ?>)</span></h1>
+<h1>Queue <span class="total-inline tip" data-total="<?php echo $total_movies; ?>" data-tip="Total number of IMDb IDs on your list.">(<?php echo $display_total; ?>)</span></h1>
 
 <form method="post" onsubmit="return confirm('Delete ALL movie IDs?');">
     <button class="delete-all" type="submit" name="delete_all">Delete all</button>
