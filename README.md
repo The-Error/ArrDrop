@@ -1,7 +1,6 @@
 # ArrDrop
 
-ArrDrop is a tiny two-part tool that lets you drop IMDb links/IDs into a simple web page and have them show up in Radarr.  
-This lets you add movies to Radarr even when your home media server is offline and also without exposing it directly to the internet. ArrDrop can be self-hosted and it's free.
+ArrDrop is a tiny two-part tool that lets you drop IMDb links/IDs into a simple web page and have them show up in Radarr. This lets you add movies to Radarr even when your home media server is offline and also without exposing it directly to the internet. ArrDrop can be self-hosted and it's free.
 
 Project: https://github.com/The-Error/ArrDrop
 Version: 2026.01
@@ -52,7 +51,7 @@ You can also override it in the URL:
 - `arrdrop.log` — sync log
 
 ## License
-See `LICENSE`.
+MIT
 
 ## Author
 Zoran Karavla
