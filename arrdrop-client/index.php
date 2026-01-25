@@ -1,5 +1,6 @@
 <?php
 // ArrDrop Client
+// License: MIT
 // Version: 2026.01
 // Codename: Baumkuchen
 // Purpose: Manage IMDb IDs stored in a local text file.

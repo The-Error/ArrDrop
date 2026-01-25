@@ -5,6 +5,7 @@ from datetime import datetime
 from pathlib import Path
 
 # ArrDrop Sync Backend
+# License: MIT
 # Version: 2026.01
 # Codename: Baumkuchen
 # Purpose: Pull IMDb IDs from a public list and add them to Radarr.
