@@ -38,7 +38,8 @@ def log(message):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     line = f"[{timestamp}] {message}"
     print(line)
-    LOG_FILE.open("a").write(line + "\n")
+    with LOG_FILE.open("a") as f:
+        f.write(line + "\n")
 
 def show_last_added_from_log():
     if not LOG_FILE.exists():
