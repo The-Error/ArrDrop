@@ -18,6 +18,43 @@ $message_suffix = "";
 $textarea_value = "";
 $version = "2026.01";
 $codename = "Baumkuchen";
+$night_mode = false;
+$theme_param = $_GET["theme"] ?? "";
+if ($theme_param === "night") {
+    $night_mode = true;
+} elseif ($theme_param === "day") {
+    $night_mode = false;
+}
+
+$theme_day = [
+    "bg" => "#F9F8F6",
+    "text" => "#3B3030",
+    "muted" => "#3B3030",
+    "border" => "#D9CFC7",
+    "accent" => "#24B23B",
+    "danger" => "#F63049",
+    "surface" => "#FFFFFF",
+    "tooltip_bg" => "#3B3030",
+    "tooltip_text" => "#F9F8F6",
+    "sheen_clear" => "rgba(255,255,255,0)",
+    "sheen_mid" => "rgba(255,255,255,0.35)",
+];
+
+$theme_night = [
+    "bg" => "#3B3030",
+    "text" => "#F9F8F6",
+    "muted" => "#EFE9E3",
+    "border" => "#D9CFC7",
+    "accent" => "#D9CFC7",
+    "danger" => "#C9B59C",
+    "surface" => "#EFE9E3",
+    "tooltip_bg" => "#F9F8F6",
+    "tooltip_text" => "#594545",
+    "sheen_clear" => "rgba(249,248,246,0)",
+    "sheen_mid" => "rgba(249,248,246,0.35)",
+];
+
+$theme = $night_mode ? $theme_night : $theme_day;
 
 function get_success_messages() {
     return [
@@ -141,30 +178,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['movies'])) {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ArrDrop</title>
 <style>
+:root {
+    --bg: <?php echo $theme["bg"]; ?>;
+    --text: <?php echo $theme["text"]; ?>;
+    --muted: <?php echo $theme["muted"]; ?>;
+    --border: <?php echo $theme["border"]; ?>;
+    --accent: <?php echo $theme["accent"]; ?>;
+    --danger: <?php echo $theme["danger"]; ?>;
+    --surface: <?php echo $theme["surface"]; ?>;
+    --tooltip-bg: <?php echo $theme["tooltip_bg"]; ?>;
+    --tooltip-text: <?php echo $theme["tooltip_text"]; ?>;
+    --sheen-clear: <?php echo $theme["sheen_clear"]; ?>;
+    --sheen-mid: <?php echo $theme["sheen_mid"]; ?>;
+}
+
 body {
     font-family: sans-serif;
     max-width: 44rem;
     margin: 3.125rem auto;
-    background: #F9F8F6;
+    background: var(--bg);
     padding: 0 1rem;
+    color: var(--text);
 }
 
 h1 {
-    color: #3B3030;
+    color: var(--text);
 }
 
 p {
-    color: #3B3030;
+    color: var(--text);
 }
 
 textarea {
     width: 100%;
     min-height: 7.5rem;
     font-family: monospace;
-    border: 0.0625rem solid #24B23B;
-    background: white;
+    border: 0.0625rem solid var(--accent);
+    background: var(--surface);
     padding: 0.625rem;
     box-sizing: border-box;
+    color: var(--text);
 }
 
 button {
@@ -179,13 +232,13 @@ button {
 }
 
 .add-btn {
-    background: #24B23B;
-    color: white;
+    background: var(--accent);
+    color: var(--bg);
 }
 
 .delete-all {
-    background: #F63049;
-    color: white;
+    background: var(--danger);
+    color: var(--bg);
     margin-bottom: 0.625rem;
 }
 
@@ -200,7 +253,7 @@ button::after {
     left: -30%;
     width: 30%;
     height: 100%;
-    background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.35) 50%, rgba(255,255,255,0) 100%);
+    background: linear-gradient(120deg, var(--sheen-clear) 0%, var(--sheen-mid) 50%, var(--sheen-clear) 100%);
     transform: skewX(-20deg);
     opacity: 0;
     transition: opacity 0.15s ease;
@@ -236,7 +289,7 @@ li {
 .show-more {
     display: inline-block;
     margin-top: 0.75rem;
-    color: #24B23B;
+    color: var(--accent);
     text-decoration: none;
     font-weight: bold;
 }
@@ -247,7 +300,7 @@ li {
 
 .total-inline {
     font-size: 0.9rem;
-    color: #24B23B;
+    color: var(--accent);
     font-weight: normal;
     display: inline-block;
 }
@@ -262,8 +315,8 @@ li {
     bottom: 135%;
     left: 50%;
     transform: translateX(-50%);
-    background: #3B3030;
-    color: #F9F8F6;
+    background: var(--tooltip-bg);
+    color: var(--tooltip-text);
     font-size: 0.85rem;
     line-height: 1.1;
     font-weight: normal;
@@ -282,7 +335,7 @@ li {
     transform: translateX(-50%);
     border-width: 0.35rem 0.35rem 0;
     border-style: solid;
-    border-color: #3B3030 transparent transparent;
+    border-color: var(--tooltip-bg) transparent transparent;
     opacity: 0;
     pointer-events: none;
 }
@@ -312,7 +365,7 @@ a.delete {
     margin-right: 0.0625rem;
     border-radius: 50%;
     background: transparent;
-    color: #F63049;
+    color: var(--danger);
     font-weight: bold;
     font-size: 1rem;
     font-family: Arial, sans-serif;
@@ -321,12 +374,12 @@ a.delete {
 }
 
 a.delete:hover {
-    background: #F63049;
-    color: white;
+    background: var(--danger);
+    color: var(--bg);
 }
 
 a.imdb {
-    color: #24B23B;
+    color: var(--accent);
     text-decoration: none;
     display: inline-block;
     padding: 0.125rem 0.375rem;
@@ -335,7 +388,7 @@ a.imdb {
 }
 
 a.imdb:visited {
-    color: #24B23B;
+    color: var(--accent);
 }
 
 a.imdb:hover {
@@ -344,8 +397,8 @@ a.imdb:hover {
 
 a.imdb:focus-visible,
 a.imdb:active {
-    background: #F63049;
-    color: white;
+    background: var(--danger);
+    color: var(--bg);
     border-radius: 0.75rem;
     padding: 0.125rem 0.375rem;
     text-decoration: none;
@@ -353,19 +406,19 @@ a.imdb:active {
 }
 
 a.delete:hover + a.imdb {
-    background: #F63049;
-    color: white;
+    background: var(--danger);
+    color: var(--bg);
     text-decoration: none;
     transform: none;
 }
 
 .message {
     margin: 0.625rem 0;
-    color: #3B3030;
+    color: var(--text);
 }
 
 .message-warn {
-    color: #F63049;
+    color: var(--danger);
 }
 
 .progress-wrap {
@@ -385,7 +438,7 @@ a.delete:hover + a.imdb {
 .progress-fill {
     height: 100%;
     width: 0%;
-    background: #24B23B;
+    background: var(--accent);
     border-radius: 0.5rem;
     transition: width 2.0s cubic-bezier(0, 0, 0.2, 1);
     position: relative;
@@ -402,7 +455,7 @@ a.delete:hover + a.imdb {
     align-items: center;
     justify-content: flex-start;
     font-weight: normal;
-    color: #F9F8F6;
+    color: var(--bg);
     text-shadow: none;
     padding: 0 0.25rem 0 0.4rem;
     text-align: center;
@@ -411,7 +464,7 @@ a.delete:hover + a.imdb {
 
 hr {
     border: 0;
-    border-top: 0.0625rem solid #D9CFC7;
+    border-top: 0.0625rem solid var(--border);
     height: 0;
     margin: 2.5rem 0;
 }
