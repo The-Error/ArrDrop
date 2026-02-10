@@ -446,14 +446,24 @@ def main():
             movie = lookup_movie(imdb_id)
             if not movie:
                 log(f"Movie not found via Radarr lookup: {imdb_id}")
+                if not args.dry_run:
+                    mark_processed(imdb_id)
+                    log(f"Marked as processed after lookup failure: {imdb_id}")
                 continue
 
             if add_movie(movie, args.dry_run):
                 if not args.dry_run:
                     mark_processed(imdb_id)
+            else:
+                if not args.dry_run:
+                    mark_processed(imdb_id)
+                    log(f"Marked as processed after add failure: {imdb_id}")
 
         except Exception as e:
             log(f"ERROR processing {imdb_id}: {e}")
+            if not args.dry_run:
+                mark_processed(imdb_id)
+                log(f"Marked as processed after error: {imdb_id}")
 
     log("===== Radarr sync finished =====")
 

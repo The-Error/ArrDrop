@@ -21,14 +21,14 @@ Version: 2026.01
 ## Quick start
 1) Place the PHP client on your web server.
 2) Make sure the client can write `movies.txt` in its folder.
-3) Set the backend config in `arrdrop-backend/arrdrop-sync.py`:
-   - `MOVIES_URL` — Public URL to your `movies.txt` (one IMDb ID per line).
-   - `RADARR_URL` — Base URL of your Radarr instance (e.g., http://localhost:7878).
-   - `RADARR_API_KEY` — Your Radarr API key (Settings → General).
-   - `QUALITY_PROFILE_ID` — Numeric ID of the quality profile you want to use.
-   - `ROOT_FOLDER` — Root folder where Radarr should store movies.
-4) Run the backend:
+3) Run the backend setup wizard once:
+   - `python3 arrdrop-sync.py --setup`
+4) Follow the prompts and save your configuration when setup finishes.
+5) Run the backend:
    - `python3 arrdrop-sync.py`
+
+If you do not want to host your own list frontend, you can create a private list on the official website and use that list URL in setup:
+- https://the-error.net/
 
 ## Usage
 - Add IDs in the web UI (any format; it extracts valid IDs).
