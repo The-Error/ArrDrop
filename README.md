@@ -5,7 +5,7 @@ ArrDrop is a tiny two-part tool that lets you drop IMDb links/IDs into a simple 
 Project: https://github.com/The-Error/ArrDrop
 Version: 2026.01
 
-![ArrDrop screenshot](assets/arrdrop_screenshot01.png)
+<img src="assets/arrdrop_screenshot01.png" alt="ArrDrop screenshot" width="50%">
 
 ## <img src="assets/hand.png" alt="" width="32" height="32"> What it does
 - PHP client: lets you paste IMDb IDs into a web page.
