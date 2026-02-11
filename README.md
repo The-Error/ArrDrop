@@ -11,6 +11,8 @@ Version: 2026.01
 - PHP client: lets you paste IMDb IDs into a web page.
 - Backend sync: reads the list and adds movies to Radarr.
 
+So the frontend acts like a simple queue and the backend script pulls this list when it runs.
+
 ## <img src="assets/hand.png" alt="" width="32" height="32"> Structure
 - `arrdrop-client/` → PHP client (web server)
 - `arrdrop-backend/` → Python sync (backend)
