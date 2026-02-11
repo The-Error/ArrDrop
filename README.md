@@ -56,12 +56,13 @@ You can also override it in the URL:
 - `?theme=night`
 - `?theme=day`
 
-## <img src="assets/hand.png" alt="" width="32" height="32"> Files created by the backend
+## <img src="assets/hand.png" alt="" width="32" height="32"> Files created by the frontend and backend
+- `movies.txt` --> current IDs in your Queue
 - `processed.txt` → IDs already added
 - `arrdrop.log` → sync log
 
 ## <img src="assets/hand.png" alt="" width="32" height="32"> License
-MIT
+MIT (see license file for details)
 
 ## <img src="assets/hand.png" alt="" width="32" height="32"> Author
 Zoran Karavla
