@@ -5,38 +5,48 @@ ArrDrop is a tiny two-part tool that lets you drop IMDb links/IDs into a simple 
 Project: https://github.com/The-Error/ArrDrop
 Version: 2026.01
 
-## What it does
+![ArrDrop screenshot](assets/arrdrop_screenshot01.png)
+
+## <img src="assets/hand.png" alt="" width="32" height="32"> What it does
 - PHP client: lets you paste IMDb IDs into a web page.
 - Backend sync: reads the list and adds movies to Radarr.
 
-## Structure
-- `arrdrop-client/` — PHP client (web server)
-- `arrdrop-backend/` — Python sync (backend)
+## <img src="assets/hand.png" alt="" width="32" height="32"> Structure
+- `arrdrop-client/` → PHP client (web server)
+- `arrdrop-backend/` → Python sync (backend)
 
-## Requirements
+## <img src="assets/hand.png" alt="" width="32" height="32"> Requirements
 - PHP 7+ (client)
 - Python 3.9+ (backend)
 - Radarr v3 with API access
 
-## Quick start
-1) Place the PHP client on your web server.
-2) Make sure the client can write `movies.txt` in its folder.
-3) Run the backend setup wizard once:
+## <img src="assets/hand.png" alt="" width="32" height="32"> Quick start
+1. Upload `arrdrop-client/index.php` to your web server.
+2. Set basic file permissions:
+   - `movies.txt` → web server can read it (`0644`)
+   - ArrDrop folder → web server can read and open it (`0755`)
+   - `index.php` → web server can read it (`0644`)
+3. On the machine that can reach Radarr, run setup once:
    - `python3 arrdrop-sync.py --setup`
-4) Follow the prompts and save your configuration when setup finishes.
-5) Run the backend:
+4. Follow the wizard prompts:
+   - ArrDrop list URL
+   - Radarr URL
+   - Radarr API key
+   - Root folder
+   - Quality profile
+5. Start your first sync:
    - `python3 arrdrop-sync.py`
 
-If you do not want to host your own list frontend, you can create a private list on the official website and use that list URL in setup:
+If you don't want to self-host ArrDrop, use the official ArrDrop website instead. It's free and anonymous. Just create a list, paste it into your backend, and you're ready to go:
 - https://the-error.net/
 
-## Usage
+## <img src="assets/hand.png" alt="" width="32" height="32"> Usage
 - Add IDs in the web UI (any format; it extracts valid IDs).
 - Run the backend to sync into Radarr.
 - Use `--dry-run` to test without adding.
 - Use `--log` to show movies added in the last sync.
 
-## Theme (day/night)
+## <img src="assets/hand.png" alt="" width="32" height="32"> Theme (day/night)
 The client supports a built-in day/night theme without any UI toggle.  
 Edit `arrdrop-client/index.php` and set:
 - `$night_mode = true;` for night mode
@@ -46,12 +56,12 @@ You can also override it in the URL:
 - `?theme=night`
 - `?theme=day`
 
-## Files created by the backend
-- `processed.txt` — IDs already added
-- `arrdrop.log` — sync log
+## <img src="assets/hand.png" alt="" width="32" height="32"> Files created by the backend
+- `processed.txt` → IDs already added
+- `arrdrop.log` → sync log
 
-## License
+## <img src="assets/hand.png" alt="" width="32" height="32"> License
 MIT
 
-## Author
+## <img src="assets/hand.png" alt="" width="32" height="32"> Author
 Zoran Karavla
