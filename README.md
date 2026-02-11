@@ -57,7 +57,7 @@ You can also override it in the URL:
 - `?theme=day`
 
 ## <img src="assets/hand.png" alt="" width="32" height="32"> Files created by the frontend and backend
-- `movies.txt` --> current IDs in your Queue
+- `movies.txt` → current IDs in your Queue
 - `processed.txt` → IDs already added
 - `arrdrop.log` → sync log
 
