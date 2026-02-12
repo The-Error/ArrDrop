@@ -11,13 +11,14 @@ from urllib.request import Request, urlopen
 
 # ArrDrop Sync Backend
 # License: MIT
-# Version: 2026.01.29
+# Version: 2026.02.12
 # Codename: Baumkuchen
 # Purpose: Pull IMDb IDs from a public list and add them to Radarr.
 # Requires: Radarr v3 API access and a reachable movies list URL.
 # Author: Zoran Karavla
 # Tooling: Codex (GPT-5)
 # Project: https://github.com/The-Error/ArrDrop
+# Official Website: https://the-error.net
 
 # ================= CONFIG =================
 # Config is loaded from arrdrop.conf (created by --setup)
@@ -29,7 +30,7 @@ STATE_FILE = Path("processed.txt")
 LOG_FILE = Path("arrdrop.log")
 # =========================================
 
-VERSION = "2026.01.29"
+VERSION = "2026.02.12"
 
 MOVIES_URL = ""
 RADARR_URL = ""

@@ -1,13 +1,14 @@
 <?php
 // ArrDrop Client
 // License: MIT
-// Version: 2026.01
+// Version: 2026.02.12
 // Codename: Baumkuchen
 // Purpose: Manage IMDb IDs stored in a local text file.
 // Requires: PHP and write access to this directory.
 // Author: Zoran Karavla
 // Tooling: Codex (GPT-5)
 // Project: https://github.com/The-Error/ArrDrop
+// Official Website: https://the-error.net
 
 // MOVIES_FILE: Local text file with one IMDb ID per line.
 $filename = "movies.txt";
@@ -17,7 +18,7 @@ $message_class = "";
 $added_count = 0;
 $message_suffix = "";
 $textarea_value = "";
-$version = "2026.01";
+$version = "2026.02.12";
 $codename = "Baumkuchen";
 $night_mode = false;
 $theme_param = $_GET["theme"] ?? "";
