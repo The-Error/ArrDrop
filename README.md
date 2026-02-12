@@ -39,10 +39,9 @@ So the frontend acts like a simple queue, and the backend script pulls this list
 5. Start your first sync:
    - `python3 arrdrop-sync.py`
 
-If you don't want to self-host ArrDrop, use the official ArrDrop website instead. It's free and anonymous. Just create a list, paste it into your backend, and you're ready to go:
-- https://the-error.net/
-
 ## <img src="assets/hand.png" alt="" width="32" height="32"> Website & Documentation
+If you don't want to self-host ArrDrop, use the official ArrDrop website instead. It's free and anonymous. Just create a list, paste it into your backend, and you're ready to go:
+- Official Website: https://the-error.net/
 - FAQ: https://the-error.net/faq.php
 - About: https://the-error.net/about.php
 
